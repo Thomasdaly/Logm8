@@ -54,7 +54,7 @@ export function AppProvider({ controller: injected, create, tickMs = 1000, child
   if (error) {
     return (
       <View style={{ flex: 1, backgroundColor: colors.bg, justifyContent: 'center', padding: 24 }}>
-        <Text style={{ color: colors.text, fontSize: 18 }}>LogMate could not open its local database.</Text>
+        <Text style={{ color: colors.text, fontSize: 18 }}>LogM8 could not open its local database.</Text>
         <Text style={{ color: colors.muted, marginTop: 8 }}>{error}</Text>
       </View>
     );

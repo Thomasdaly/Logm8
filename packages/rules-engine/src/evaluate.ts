@@ -8,7 +8,7 @@ import type {
   WorkRestEvent,
   WorkSeverityTier,
   RiskCategory,
-} from '@logmate/shared';
+} from '@logm8/shared';
 import { checkJurisdiction } from './jurisdiction.js';
 import { longNightIn, longNightMask } from './longNight.js';
 import { checkRest } from './requirements.js';

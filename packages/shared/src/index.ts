@@ -1,8 +1,8 @@
 /**
- * Shared domain types for LogMate.
+ * Shared domain types for LogM8.
  *
  * This module is TYPES ONLY (no runtime code), so that packages depending on it
- * (notably @logmate/rules-engine) keep zero runtime dependencies.
+ * (notably @logm8/rules-engine) keep zero runtime dependencies.
  *
  * All durations in scheme definitions are in MINUTES.
  */

@@ -1,34 +1,37 @@
 {
   "expo": {
-    "name": "LogMate",
-    "slug": "logmate",
+    "name": "LogM8",
+    "slug": "logm8",
     "version": "0.1.0",
-    "scheme": "logmate",
+    "scheme": "logm8",
     "orientation": "default",
     "userInterfaceStyle": "dark",
     "newArchEnabled": true,
     "ios": {
-      "bundleIdentifier": "au.example.logmate",
+      "bundleIdentifier": "au.example.logm8",
       "supportsTablet": true,
       "infoPlist": {
         "UIBackgroundModes": [
           "location",
           "audio"
         ],
-        "NSLocationWhenInUseUsageDescription": "LogMate uses your location to measure speed so it can suggest when you have started or stopped work and switch off buttons while you are driving. Nothing is recorded without your confirmation.",
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "LogMate uses your location in the background only to measure speed, so it can warn you by voice before a work or rest limit while the screen is off, and suggest work/rest changes. Nothing is recorded without your confirmation.",
-        "ITSAppUsesNonExemptEncryption": false
+        "NSLocationWhenInUseUsageDescription": "LogM8 uses your location to measure speed so it can suggest when you have started or stopped work and switch off buttons while you are driving. Nothing is recorded without your confirmation.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "LogM8 uses your location in the background only to measure speed, so it can warn you by voice before a work or rest limit while the screen is off, and suggest work/rest changes. Nothing is recorded without your confirmation.",
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSCameraUsageDescription": "LogM8 uses the camera to photograph a Written Work Diary daily sheet so it can check it against your log. The photo stays on your phone.",
+        "NSPhotoLibraryUsageDescription": "LogM8 can read a photo of a Written Work Diary daily sheet that you choose, to check it against your log."
       }
     },
     "android": {
-      "package": "au.example.logmate",
+      "package": "au.example.logm8",
       "permissions": [
         "ACCESS_COARSE_LOCATION",
         "ACCESS_FINE_LOCATION",
         "ACCESS_BACKGROUND_LOCATION",
         "FOREGROUND_SERVICE",
         "FOREGROUND_SERVICE_LOCATION",
-        "POST_NOTIFICATIONS"
+        "POST_NOTIFICATIONS",
+        "CAMERA"
       ]
     },
     "plugins": [
@@ -37,11 +40,18 @@
       [
         "expo-location",
         {
-          "locationAlwaysAndWhenInUsePermission": "LogMate uses your location in the background only to measure speed, so it can warn you by voice before a work or rest limit while the screen is off.",
-          "locationWhenInUsePermission": "LogMate uses your location to measure speed so it can suggest work/rest changes and lock the buttons while you drive.",
+          "locationAlwaysAndWhenInUsePermission": "LogM8 uses your location in the background only to measure speed, so it can warn you by voice before a work or rest limit while the screen is off.",
+          "locationWhenInUsePermission": "LogM8 uses your location to measure speed so it can suggest work/rest changes and lock the buttons while you drive.",
           "isAndroidBackgroundLocationEnabled": true,
           "isAndroidForegroundServiceEnabled": true,
           "isIosBackgroundLocationEnabled": true
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "LogM8 can read a photo of a Written Work Diary daily sheet that you choose, to check it against your log.",
+          "cameraPermission": "LogM8 uses the camera to photograph a Written Work Diary daily sheet so it can check it against your log."
         }
       ]
     ],

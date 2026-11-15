@@ -6,7 +6,7 @@ import {
   type Forecast,
   type LimitForecast,
   type SchemeDefinition,
-} from '@logmate/rules-engine';
+} from '@logm8/rules-engine';
 import { schemeFor } from './profile';
 import { type ProfileVersion, type StateEntry, toWorkRestEvents, trimHistory } from './projection';
 

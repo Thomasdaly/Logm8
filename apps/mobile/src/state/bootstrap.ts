@@ -1,6 +1,7 @@
 import Constants from 'expo-constants';
 import { EventStore } from '../lib/eventStore';
 import { sha256 } from '../platform/crypto';
+import { createFieldReader } from '../platform/fieldReader';
 import { expoLocation } from '../platform/location';
 import { openExpoDb } from '../platform/sqlite';
 import { expoSpeech } from '../platform/speech';
@@ -16,6 +17,7 @@ export async function createProductionController(): Promise<DriverController> {
     speech: expoSpeech,
     location: expoLocation,
     appVersion: Constants.expoConfig?.version ?? '0.0.0',
+    fieldReader: createFieldReader(),
   });
   await controller.load();
   return controller;

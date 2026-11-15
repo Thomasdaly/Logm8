@@ -1,4 +1,4 @@
-import { BFM_SOLO, BFM_TWO_UP, STANDARD_SOLO, STANDARD_TWO_UP, type SchemeDefinition } from '@logmate/rules-engine';
+import { BFM_SOLO, BFM_TWO_UP, STANDARD_SOLO, STANDARD_TWO_UP, type SchemeDefinition } from '@logm8/rules-engine';
 import type { BaseState, Profile, SchemeFamilyChoice } from './types';
 
 export interface BaseOption {

@@ -1,4 +1,4 @@
-import type { Jurisdiction, WorkRestEvent } from '@logmate/shared';
+import type { Jurisdiction, WorkRestEvent } from '@logm8/shared';
 
 /**
  * Base time zones accepted for HVNL participating jurisdictions (QLD, NSW, VIC, SA, TAS, ACT).

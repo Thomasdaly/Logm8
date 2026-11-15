@@ -1,0 +1,508 @@
+{
+  "id": "pre-2026",
+  "name": "National Driver Work Diary daily sheet (before 1 August 2026)",
+  "aspect": 1.41702,
+  "source": "https://www.nhvr.gov.au/files/media/document/883/202606-1760-hvnl-changes-to-recording-information-in-written-work-diary.pdf (page 4 image, 1016x717 px). Measured 2026-11-15.",
+  "calibration": "best-effort: measured from a low-resolution image of the sheet; must be calibrated against real photos",
+  "validFrom": null,
+  "note": "Pre-1 August 2026 sheets can still be used; the new filling-in rules apply to them from 1 August 2026.",
+  "grid": {
+    "x0": 0.10925,
+    "x1": 0.88287,
+    "workTop": 0.66667,
+    "split": 0.73082,
+    "restBottom": 0.79358,
+    "hours": 24,
+    "cellsPerHour": 4,
+    "shadedHours": [
+      [
+        0,
+        8
+      ],
+      [
+        22,
+        24
+      ]
+    ],
+    "labelLeft": 0.01378,
+    "totalsRight": 0.98031
+  },
+  "activities": {
+    "top": 0.20642,
+    "odometerTop": 0.31939,
+    "placeTop": 0.42538,
+    "twoUpTop": 0.60948,
+    "labelsTop": 0.63319,
+    "bottom": 0.80893
+  },
+  "fields": [
+    {
+      "id": "driverName",
+      "label": "Driver's name",
+      "kind": "text",
+      "box": [
+        0.01969,
+        0.106,
+        0.33169,
+        0.02929
+      ]
+    },
+    {
+      "id": "date",
+      "label": "Date",
+      "kind": "date",
+      "box": [
+        0.36713,
+        0.106,
+        0.11417,
+        0.02929
+      ]
+    },
+    {
+      "id": "licenceNo",
+      "label": "Licence no",
+      "kind": "text",
+      "box": [
+        0.01969,
+        0.16039,
+        0.17028,
+        0.02929
+      ]
+    },
+    {
+      "id": "numberPlate",
+      "label": "Number plate",
+      "kind": "text",
+      "box": [
+        0.20669,
+        0.16039,
+        0.14469,
+        0.02929
+      ]
+    },
+    {
+      "id": "dailyCheckTime",
+      "label": "Time of daily check",
+      "kind": "text",
+      "box": [
+        0.82283,
+        0.106,
+        0.15354,
+        0.02929
+      ]
+    },
+    {
+      "id": "workDiaryNo",
+      "label": "Work diary no",
+      "kind": "text",
+      "box": [
+        0.84646,
+        0.01953,
+        0.1378,
+        0.03347
+      ]
+    },
+    {
+      "id": "signature",
+      "label": "Driver's signature",
+      "kind": "signature",
+      "box": [
+        0.01378,
+        0.89679,
+        0.31201,
+        0.05997
+      ]
+    },
+    {
+      "id": "totalWork",
+      "label": "Total work",
+      "kind": "text",
+      "box": [
+        0.88583,
+        0.6834,
+        0.09252,
+        0.03905
+      ]
+    },
+    {
+      "id": "totalRest",
+      "label": "Total rest",
+      "kind": "text",
+      "box": [
+        0.88583,
+        0.74616,
+        0.09252,
+        0.03905
+      ]
+    },
+    {
+      "id": "twoUpName",
+      "label": "Two-up driver's name",
+      "kind": "text",
+      "box": [
+        0.36811,
+        0.87866,
+        0.20866,
+        0.03068
+      ]
+    },
+    {
+      "id": "twoUpLicenceNo",
+      "label": "Two-up driver's licence no",
+      "kind": "text",
+      "box": [
+        0.5935,
+        0.87866,
+        0.16437,
+        0.03068
+      ]
+    },
+    {
+      "id": "twoUpDiaryPage",
+      "label": "Two-up driver's work diary & page no",
+      "kind": "text",
+      "box": [
+        0.36811,
+        0.93724,
+        0.17618,
+        0.03347
+      ]
+    },
+    {
+      "id": "twoUpSignature",
+      "label": "Two-up driver's signature",
+      "kind": "signature",
+      "box": [
+        0.77067,
+        0.93724,
+        0.20571,
+        0.03347
+      ]
+    }
+  ],
+  "checkboxGroups": [
+    {
+      "id": "timeZone",
+      "label": "Time zone (driver base)",
+      "outlined": true,
+      "options": [
+        {
+          "value": "ACT",
+          "box": [
+            0.36909,
+            0.16318,
+            0.03051,
+            0.02371
+          ]
+        },
+        {
+          "value": "NSW",
+          "box": [
+            0.40354,
+            0.16318,
+            0.03051,
+            0.02371
+          ]
+        },
+        {
+          "value": "NT",
+          "box": [
+            0.43799,
+            0.16318,
+            0.03051,
+            0.02371
+          ]
+        },
+        {
+          "value": "QLD",
+          "box": [
+            0.47244,
+            0.16318,
+            0.03051,
+            0.02371
+          ]
+        },
+        {
+          "value": "SA",
+          "box": [
+            0.50689,
+            0.16318,
+            0.03051,
+            0.02371
+          ]
+        },
+        {
+          "value": "TAS",
+          "box": [
+            0.54134,
+            0.16318,
+            0.03051,
+            0.02371
+          ]
+        },
+        {
+          "value": "VIC",
+          "box": [
+            0.57579,
+            0.16318,
+            0.03051,
+            0.02371
+          ]
+        },
+        {
+          "value": "WA",
+          "box": [
+            0.61024,
+            0.16318,
+            0.03051,
+            0.02371
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dayOfWeek",
+      "label": "Day of the week",
+      "outlined": true,
+      "options": [
+        {
+          "value": "SUN",
+          "box": [
+            0.50787,
+            0.10879,
+            0.01589,
+            0.02371
+          ]
+        },
+        {
+          "value": "MON",
+          "box": [
+            0.5277,
+            0.10879,
+            0.01589,
+            0.02371
+          ]
+        },
+        {
+          "value": "TUE",
+          "box": [
+            0.54753,
+            0.10879,
+            0.01589,
+            0.02371
+          ]
+        },
+        {
+          "value": "WED",
+          "box": [
+            0.56735,
+            0.10879,
+            0.01589,
+            0.02371
+          ]
+        },
+        {
+          "value": "THU",
+          "box": [
+            0.58718,
+            0.10879,
+            0.01589,
+            0.02371
+          ]
+        },
+        {
+          "value": "FRI",
+          "box": [
+            0.607,
+            0.10879,
+            0.01589,
+            0.02371
+          ]
+        },
+        {
+          "value": "SAT",
+          "box": [
+            0.62683,
+            0.10879,
+            0.01589,
+            0.02371
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hoursOption",
+      "label": "Driver",
+      "outlined": true,
+      "options": [
+        {
+          "value": "standard",
+          "box": [
+            0.65945,
+            0.10739,
+            0.0128,
+            0.01813
+          ]
+        },
+        {
+          "value": "standardBus",
+          "box": [
+            0.72441,
+            0.10739,
+            0.0128,
+            0.01813
+          ]
+        },
+        {
+          "value": "bfm",
+          "box": [
+            0.65945,
+            0.13947,
+            0.0128,
+            0.01813
+          ]
+        },
+        {
+          "value": "afm",
+          "box": [
+            0.72441,
+            0.13947,
+            0.0128,
+            0.01813
+          ]
+        },
+        {
+          "value": "exemption",
+          "box": [
+            0.65945,
+            0.17015,
+            0.0128,
+            0.01813
+          ]
+        }
+      ]
+    },
+    {
+      "id": "twoUpLicenceState",
+      "label": "Two-up licence issued",
+      "outlined": true,
+      "options": [
+        {
+          "value": "ACT",
+          "box": [
+            0.56299,
+            0.94003,
+            0.02018,
+            0.02789
+          ]
+        },
+        {
+          "value": "NSW",
+          "box": [
+            0.58711,
+            0.94003,
+            0.02018,
+            0.02789
+          ]
+        },
+        {
+          "value": "NT",
+          "box": [
+            0.61122,
+            0.94003,
+            0.02018,
+            0.02789
+          ]
+        },
+        {
+          "value": "QLD",
+          "box": [
+            0.63533,
+            0.94003,
+            0.02018,
+            0.02789
+          ]
+        },
+        {
+          "value": "SA",
+          "box": [
+            0.65945,
+            0.94003,
+            0.02018,
+            0.02789
+          ]
+        },
+        {
+          "value": "TAS",
+          "box": [
+            0.68356,
+            0.94003,
+            0.02018,
+            0.02789
+          ]
+        },
+        {
+          "value": "VIC",
+          "box": [
+            0.70768,
+            0.94003,
+            0.02018,
+            0.02789
+          ]
+        },
+        {
+          "value": "WA",
+          "box": [
+            0.73179,
+            0.94003,
+            0.02018,
+            0.02789
+          ]
+        }
+      ]
+    },
+    {
+      "id": "twoUpHoursOption",
+      "label": "Two-up hours option",
+      "outlined": true,
+      "options": [
+        {
+          "value": "standard",
+          "box": [
+            0.77264,
+            0.87866,
+            0.0128,
+            0.01813
+          ]
+        },
+        {
+          "value": "bfm",
+          "box": [
+            0.82677,
+            0.87866,
+            0.0128,
+            0.01813
+          ]
+        },
+        {
+          "value": "afm",
+          "box": [
+            0.86909,
+            0.87866,
+            0.0128,
+            0.01813
+          ]
+        },
+        {
+          "value": "exemption",
+          "box": [
+            0.91634,
+            0.87866,
+            0.0128,
+            0.01813
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -36,7 +36,7 @@ export function OnboardingScreen() {
 
   return (
     <ScreenScroll keyboardShouldPersistTaps="handled" testID="onboarding">
-      <Text style={common.h1}>Welcome to LogMate</Text>
+      <Text style={common.h1}>Welcome to LogM8</Text>
       <Disclaimer />
       <View style={common.row}>
         <Chip label={acknowledged ? 'I understand ✓' : 'I understand'} selected={acknowledged} onPress={() => setAcknowledged(true)} />

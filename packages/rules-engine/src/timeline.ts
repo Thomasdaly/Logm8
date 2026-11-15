@@ -1,4 +1,4 @@
-import type { RecordingMode, WorkRestEvent } from '@logmate/shared';
+import type { RecordingMode, WorkRestEvent } from '@logm8/shared';
 import { localDayOf, localToEpoch, parseInstant } from './time.js';
 
 /** Per-minute counted state. */

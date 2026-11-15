@@ -1,4 +1,4 @@
-import type { Breach, EvaluationContext, Forecast, LimitForecast, SchemeDefinition, WorkRestEvent } from '@logmate/shared';
+import type { Breach, EvaluationContext, Forecast, LimitForecast, SchemeDefinition, WorkRestEvent } from '@logm8/shared';
 import { RULESET_VERSION, type PreparedInput, evaluatePrepared, prepare } from './evaluate.js';
 import { formatInstant, parseInstant } from './time.js';
 import { type ParsedEvent, REST_STATIONARY, WORK } from './timeline.js';

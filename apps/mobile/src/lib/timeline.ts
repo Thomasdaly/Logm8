@@ -1,4 +1,4 @@
-import type { WorkRestEvent } from '@logmate/rules-engine';
+import type { WorkRestEvent } from '@logm8/rules-engine';
 import { localMidnight } from './tz';
 
 export type SlotState = 'work' | 'rest' | 'none' | 'future';

@@ -1,5 +1,5 @@
 {
-  "name": "@logmate/rules-engine",
+  "name": "@logm8/rules-engine",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -13,10 +13,10 @@
     "typecheck": "tsc -p tsconfig.json"
   },
   "peerDependencies": {
-    "@logmate/shared": "workspace:*"
+    "@logm8/shared": "workspace:*"
   },
   "devDependencies": {
-    "@logmate/shared": "workspace:*",
+    "@logm8/shared": "workspace:*",
     "@types/node": "^26.6.6",
     "@vitest/coverage-v8": "^5.1.0",
     "ajv": "^8.20.0",

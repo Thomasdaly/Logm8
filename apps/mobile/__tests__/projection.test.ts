@@ -3,7 +3,7 @@ import { buildTodaySlots } from '../src/lib/timeline';
 import { buildContext, limitLabel, mergeForecasts, tierContexts } from '../src/lib/engine';
 import { BASE_OPTIONS, schemeFor, validateProfileInput } from '../src/lib/profile';
 import { localMidnight, formatLocalTime, formatLocalDateTime, offsetMinutes } from '../src/lib/tz';
-import { forecast, STANDARD_SOLO, BFM_SOLO, STANDARD_TWO_UP } from '@logmate/rules-engine';
+import { forecast, STANDARD_SOLO, BFM_SOLO, STANDARD_TWO_UP } from '@logm8/rules-engine';
 import type { StoredEvent } from '../src/lib/types';
 import { PROFILE } from './helpers/testDb';
 

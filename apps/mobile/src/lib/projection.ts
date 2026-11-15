@@ -1,4 +1,4 @@
-import type { RestLocation, WorkRestEvent } from '@logmate/rules-engine';
+import type { RestLocation, WorkRestEvent } from '@logm8/rules-engine';
 import type { DriverState, Profile, StoredEvent } from './types';
 
 /** A state change as it stands after applying corrections. */

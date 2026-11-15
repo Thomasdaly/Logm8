@@ -1,4 +1,4 @@
-import type { EvaluationContext, WorkRestEvent } from '@logmate/shared';
+import type { EvaluationContext, WorkRestEvent } from '@logm8/shared';
 import { prepare } from './evaluate.js';
 import { longNightIn, longNightMask } from './longNight.js';
 import { formatInstant, parseInstant } from './time.js';
@@ -10,7 +10,7 @@ export { validateScheme, loadSchemeFromJson, type ValidationResult } from './sch
 export { schemeJsonSchema } from './schemeJsonSchema.js';
 export { checkJurisdiction } from './jurisdiction.js';
 export { STANDARD_SOLO, STANDARD_TWO_UP, BFM_SOLO, BFM_TWO_UP, BUILT_IN_SCHEMES } from './schemes/index.js';
-export type * from '@logmate/shared';
+export type * from '@logm8/shared';
 
 export type CountedKind = 'work' | 'rest_stationary' | 'rest_sleeper_moving' | 'rest_other' | 'not_recorded';
 

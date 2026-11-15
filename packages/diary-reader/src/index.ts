@@ -1,0 +1,10 @@
+export type { Box, CellState, CheckboxGroup, GrayImage, Point, Quad, RgbaImage, SheetTemplate, SheetVersionId, TemplateField } from './types.js';
+export { TEMPLATES, TEMPLATE_PRE_2026, TEMPLATE_V14, templateById, CELLS_PER_DAY } from './templates/index.js';
+export { decodeJpeg, rgbaToGray } from './image.js';
+export { detectPage } from './detect.js';
+export { readSheet, readGrid, rectify, CANONICAL_WIDTH, type ReadOptions, type SheetReading, type SheetReadingOk, type SheetReadingError } from './read.js';
+export { HttpFieldReader, MockFieldReader, NullFieldReader, type FieldCrop, type FieldKind, type FieldReader, type FieldValue, type ReadFieldsRequest, type ReadFieldsResponse } from './fields.js';
+export { compareSheet, logToCells, sheetToEvents, parseSheetDate, cellLabel, type CompareInput, type CompareResult, type CellDiff, type DiffRange, type MissingItem } from './compare.js';
+export { SHEET_REQUIREMENTS, OPTIONAL_FROM_REFORM, REFORM_DATE, CHANGE_REQUIREMENTS } from './requirements.js';
+export { base64ToBytes, bytesToBase64, encodePngGray } from './encode.js';
+export { evaluateReading, summarise, formatReport, type ReadingScore, type AccuracySummary } from './accuracy.js';

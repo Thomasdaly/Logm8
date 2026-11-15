@@ -35,7 +35,7 @@ describe('expo-location adapter', () => {
   });
 
   it('registers the background task at import time and forwards its locations to the listener', async () => {
-    expect(defineCall?.[0]).toBe('logmate-background-location');
+    expect(defineCall?.[0]).toBe('logm8-background-location');
     expect(typeof taskExecutor).toBe('function');
     mockLocation.getForegroundPermissionsAsync.mockResolvedValue({ granted: true });
     mockLocation.getBackgroundPermissionsAsync.mockResolvedValue({ granted: false });
@@ -74,7 +74,7 @@ describe('expo-location adapter', () => {
     mockLocation.getBackgroundPermissionsAsync.mockResolvedValue({ granted: true });
     mockLocation.hasStartedLocationUpdatesAsync.mockResolvedValue(false);
     await expoLocation.start(() => undefined);
-    expect(mockLocation.startLocationUpdatesAsync).toHaveBeenCalledWith('logmate-background-location', expect.objectContaining({ showsBackgroundLocationIndicator: true, foregroundService: expect.objectContaining({ notificationTitle: expect.any(String) }) }));
+    expect(mockLocation.startLocationUpdatesAsync).toHaveBeenCalledWith('logm8-background-location', expect.objectContaining({ showsBackgroundLocationIndicator: true, foregroundService: expect.objectContaining({ notificationTitle: expect.any(String) }) }));
     expect(mockLocation.watchPositionAsync).not.toHaveBeenCalled();
     mockLocation.hasStartedLocationUpdatesAsync.mockResolvedValue(true);
     await expoLocation.start(() => undefined);
@@ -130,7 +130,7 @@ describe('AppProvider', () => {
         <Probe />
       </AppProvider>,
     );
-    await waitFor(() => expect(screen.getByText('LogMate could not open its local database.')).toBeTruthy());
+    await waitFor(() => expect(screen.getByText('LogM8 could not open its local database.')).toBeTruthy());
     expect(screen.getByText('disk full')).toBeTruthy();
   });
 });

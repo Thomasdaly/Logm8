@@ -15,6 +15,12 @@ export default tseslint.config(
     rules: { '@typescript-eslint/no-non-null-assertion': 'off', '@typescript-eslint/no-require-imports': 'off' },
   },
   {
+    // Image-processing kernels index typed arrays inside computed bounds; with noUncheckedIndexedAccess the
+    // non-null assertion (no runtime cost, unlike a helper call per pixel on Hermes) is the intended form here.
+    files: ['packages/diary-reader/src/**/*.ts'],
+    rules: { '@typescript-eslint/no-non-null-assertion': 'off' },
+  },
+  {
     // CommonJS tool configs (Babel, Metro, Jest).
     files: ['**/*.config.js', '**/*.cjs'],
     languageOptions: { sourceType: 'commonjs', globals: { module: 'writable', require: 'readonly', __dirname: 'readonly' } },

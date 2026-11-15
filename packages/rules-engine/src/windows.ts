@@ -1,4 +1,4 @@
-import type { MajorRestSpec, RuleDefinition } from '@logmate/shared';
+import type { MajorRestSpec, RuleDefinition } from '@logm8/shared';
 import { type Interval, type Timeline, clipRuns, len, nightRestDays } from './timeline.js';
 
 function blockQualifies(tl: Timeline, block: Interval, spec: MajorRestSpec): boolean {

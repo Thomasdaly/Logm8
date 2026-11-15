@@ -1,0 +1,26 @@
+{
+  "name": "@logm8/diary-reader",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Reads photos of Written Work Diary daily sheets and compares them with the app log.",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": { ".": "./src/index.ts" },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json",
+    "synth": "tsx scripts/synth.ts",
+    "accuracy": "tsx scripts/accuracy.ts"
+  },
+  "dependencies": {
+    "@logm8/rules-engine": "workspace:*",
+    "jpeg-js": "^0.4.4"
+  },
+  "devDependencies": {
+    "@logm8/shared": "workspace:*",
+    "@types/node": "^26.6.6",
+    "tsx": "^4.23.15",
+    "vitest": "^5.1.0"
+  }
+}

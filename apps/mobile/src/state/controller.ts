@@ -1,4 +1,7 @@
-import type { Breach, EvaluationContext, Forecast, RestLocation } from '@logmate/rules-engine';
+import type { Breach, EvaluationContext, Forecast, RestLocation } from '@logm8/rules-engine';
+import { NullFieldReader, compareSheet, parseSheetDate, readSheet, type CompareResult, type FieldReader, type SheetReadingOk } from '@logm8/diary-reader';
+import { schemeFor } from '../lib/profile';
+import { localParts } from '../lib/tz';
 import type { EventStore } from '../lib/eventStore';
 import { FAST_HISTORY_DAYS, buildContext, limitLabel, mergeForecasts, runEvaluate, runForecast, tierContexts } from '../lib/engine';
 import { MotionSuggester, type LocationSample, type Suggestion } from '../lib/motion';
@@ -36,7 +39,14 @@ export interface ControllerDeps {
   appVersion: string;
   /** Lets the UI paint between button press and the (CPU-heavy) forecast. */
   yieldToUi?: () => Promise<void>;
+  /** Reads handwriting on photographed daily sheets (server-backed). Defaults to not reading handwriting. */
+  fieldReader?: FieldReader;
 }
+
+export type SheetCheck =
+  | { status: 'reading' }
+  | { status: 'error'; message: string }
+  | { status: 'done'; reading: SheetReadingOk; sheetDate: string; dateSource: 'sheet' | 'today' | 'driver'; result: CompareResult; handwritingRead: boolean };
 
 export type BannerLevel = 'info' | 'warning' | 'critical';
 export interface Banner {
@@ -71,6 +81,8 @@ export interface Snapshot {
   breaches: Breach[];
   evaluationKind: 'compliant' | 'breach' | 'unsupported_jurisdiction' | 'invalid_input' | null;
   locationStatus: LocationStatus;
+  /** The latest photo check of a Written Work Diary daily sheet. */
+  sheetCheck: SheetCheck | null;
 }
 
 export type ActionResult = { ok: true } | { ok: false; reason: 'moving' | 'already' | 'no_profile' | 'error'; message: string };
@@ -122,6 +134,7 @@ export class DriverController {
       breaches: [],
       evaluationKind: null,
       locationStatus: 'unknown',
+      sheetCheck: null,
     };
   }
 
@@ -298,6 +311,64 @@ export class DriverController {
     } catch (e) {
       return { ok: false, reason: 'error', message: (e as Error).message };
     }
+  }
+
+  // ---- photo check of a daily sheet ----
+  private todayInBase(): string {
+    const tz = this.snap.profile?.baseTimeZone ?? 'Australia/Brisbane';
+    const p = localParts(tz, this.deps.clock());
+    return `${p.y}-${String(p.mo).padStart(2, '0')}-${String(p.d).padStart(2, '0')}`;
+  }
+
+  private compare(reading: SheetReadingOk, sheetDate: string): CompareResult {
+    const p = this.snap.profile;
+    const scheme = p ? schemeFor(p.schemeFamily, p.twoUp) : undefined;
+    const nowIso = new Date(this.deps.clock()).toISOString();
+    return compareSheet({
+      reading,
+      sheetDate,
+      baseTimeZone: p?.baseTimeZone ?? 'Australia/Brisbane',
+      appEvents: toWorkRestEvents(this.snap.entries, nowIso),
+      ...(scheme ? { scheme } : {}),
+      ...(p ? { twoUp: p.twoUp } : {}),
+    });
+  }
+
+  /**
+   * Reads a photo (JPEG bytes) of a Written Work Diary daily sheet and compares it with the app's log.
+   * Nothing is written to the log: this is a check only.
+   */
+  async checkSheet(jpeg: Uint8Array): Promise<ActionResult> {
+    this.set({ sheetCheck: { status: 'reading' } });
+    await (this.deps.yieldToUi ?? (() => new Promise<void>((r) => setTimeout(r, 0))))();
+    try {
+      const fieldReader = this.deps.fieldReader ?? new NullFieldReader();
+      const reading = await readSheet(jpeg, { fieldReader });
+      if (!reading.ok) {
+        this.set({ sheetCheck: { status: 'error', message: reading.message } });
+        return { ok: false, reason: 'error', message: reading.message };
+      }
+      const fromSheet = parseSheetDate(reading.fields.date?.value);
+      const sheetDate = fromSheet ?? this.todayInBase();
+      const handwritingRead = Object.values(reading.fields).some((f) => f.value !== null);
+      this.set({ sheetCheck: { status: 'done', reading, sheetDate, dateSource: fromSheet ? 'sheet' : 'today', result: this.compare(reading, sheetDate), handwritingRead } });
+      return { ok: true };
+    } catch (e) {
+      const message = `Could not check the photo: ${(e as Error).message}`;
+      this.set({ sheetCheck: { status: 'error', message } });
+      return { ok: false, reason: 'error', message };
+    }
+  }
+
+  /** The driver corrects which day the sheet is for. */
+  setSheetDate(sheetDate: string): void {
+    const c = this.snap.sheetCheck;
+    if (c?.status !== 'done' || !/^\d{4}-\d{2}-\d{2}$/.test(sheetDate)) return;
+    this.set({ sheetCheck: { ...c, sheetDate, dateSource: 'driver', result: this.compare(c.reading, sheetDate) } });
+  }
+
+  clearSheetCheck(): void {
+    this.set({ sheetCheck: null });
   }
 
   verifyIntegrity(): Promise<VerifyResult> {

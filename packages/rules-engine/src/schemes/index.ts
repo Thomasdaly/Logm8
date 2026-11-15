@@ -1,4 +1,4 @@
-import type { SchemeDefinition } from '@logmate/shared';
+import type { SchemeDefinition } from '@logm8/shared';
 import { validateScheme } from '../schemeValidation.js';
 import standardSoloJson from './standard-solo.json';
 import standardTwoUpJson from './standard-two-up.json';

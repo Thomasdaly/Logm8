@@ -13,10 +13,12 @@ function Gate() {
   if (snap.ready && snap.profile && !snap.interactionAllowed) return <DrivingLock snap={snap} />;
   return (
     <Stack screenOptions={{ headerStyle: { backgroundColor: colors.card }, headerTintColor: colors.text, contentStyle: { backgroundColor: colors.bg } }}>
-      <Stack.Screen name="index" options={{ title: 'LogMate' }} />
+      <Stack.Screen name="index" options={{ title: 'LogM8' }} />
       <Stack.Screen name="onboarding" options={{ title: 'Set up', headerBackVisible: false }} />
       <Stack.Screen name="settings" options={{ title: 'Settings' }} />
       <Stack.Screen name="history" options={{ title: 'History' }} />
+      <Stack.Screen name="capture" options={{ title: 'Check a diary page' }} />
+      <Stack.Screen name="sheet-result" options={{ title: 'Diary page check' }} />
     </Stack>
   );
 }

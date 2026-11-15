@@ -142,3 +142,32 @@ reading noted, and the decision is recorded in DECISIONS.md. Tests that depend o
 | U3 | Long/night "in excess of 12 hours": which minutes are "the excess" when night work comes before the 12 h mark. No official worked example covers it | Chronological: work after the first 12 h of work in each 24 h period. This is never less than the alternative reading. SPEC cases 5–7 give the same result under every reading | none (no test depends on it) |
 | U4 | Whether one continuous stationary rest spanning two nights counts as two night rest breaks | Counted once per qualifying night (literal HVNL s5 reading) | none (no test depends on it) |
 | U5 | Exact formulation of "if you have not taken the required rest break, count from the end of any rest break" | A rest end is also a counting start when no qualifying major rest ended within the preceding period length | covered implicitly by case 10 (52 h) |
+
+## Daily sheet recording requirements (stage 3: photo checker)
+
+Checked 2026-11-15. These are encoded in `packages/diary-reader/src/requirements.ts`.
+
+| Item | When required | Source |
+|---|---|---|
+| Date | always | REG s15(1)(a) (REG-OLD s15(1)(a): day of the week **and** date) |
+| Registration number | always | REG s15(1)(b) |
+| Driver's name | always | REG s15(1)(c) |
+| Driver licence number | always | REG s15(1)(d) |
+| Hours option | from 1 Aug 2026: only if not Standard Hours; before: always | REG s15(1)(e); REG-OLD s15(1)(e); NHVR-WWD ("marking the Standard ... check box will be optional") |
+| Time zone of base | always | REG s15(1)(k) |
+| Day of the week | only before 1 Aug 2026 | REG-OLD s15(1)(a); NHVR-WWD (optional from 1 Aug 2026, on old and new sheets) |
+| Daily work and rest totals | only before 1 Aug 2026 | NHVR-WWD ("no longer required to record their work and rest totals") |
+| Signature (driver) | always | REG s20(1)(c)(i) |
+| Signature (two-up partner) | two-up | REG s20(1)(c)(ii) |
+| Two-up partner name, licence number and licence jurisdiction | two-up | REG s17(2) |
+| Place of each work/rest change | each change | REG s16(2)(c); exemption for same-day rest→work, REG s16(6) |
+| Odometer at each work/rest change | each change, if an odometer is fitted | REG s16(2)(d); s16(6) |
+
+NHVR-WWD FAQ: the new filling-in rules also apply to pre-1 August 2026 diaries used after that date.
+
+### UNVERIFIED (stage 3)
+| # | Item | Behaviour |
+|---|---|---|
+| U6 | Daily-sheet layout geometry | Measured from the low-resolution sheet images in NHVR-WWD p.4; must be calibrated against real photos (DECISIONS.md, stage 3) |
+| U7 | Two-up partner's work diary and page number as a requirement | Not checked (the s17(2) text read was truncated after the licence jurisdiction) |
+| U8 | Where the place/odometer for a change is written (hour column of the change) | From the sheet layout (24 hour columns); tolerance of one column for changes on the hour |

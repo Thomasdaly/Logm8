@@ -111,7 +111,7 @@ Format: date — decision — reason. Sources are as keyed in `docs/RULES_SOURCE
 - **2026-11-15 — Installed pnpm 10 globally with `npm i -g pnpm@10`.** Node 26 no longer ships corepack.
 - **2026-11-15 — TypeScript pinned to ~6.0.** typescript-eslint 8.72 supports TypeScript < 6.1. TypeScript 7 exists
   but is not yet supported by the linter.
-- **2026-11-15 — `@logmate/shared` is types-only.** rules-engine imports it only with `import type`, and lists it
+- **2026-11-15 — `@logm8/shared` is types-only.** rules-engine imports it only with `import type`, and lists it
   under `peerDependencies` / `devDependencies`. So rules-engine has no `dependencies` field (zero runtime
   dependencies). A test enforces this, and ESLint bans clock reads, `Math.random` and I/O imports in
   `packages/rules-engine/src`.
@@ -185,7 +185,7 @@ Format: date — decision — reason. Sources are as keyed in `docs/RULES_SOURCE
   engine `schemeChanges` entry and the HVNL s263 rules (48 h reset or full compliance) are applied.
 - **2026-11-15 — Base options are QLD, NSW, VIC, SA, TAS, ACT** (WA/NT not offered). ACT uses `Australia/Sydney` (same
   rules and avoids relying on the `Australia/Canberra` alias in Hermes).
-- **2026-11-15 — Bundle identifiers `au.example.logmate` are placeholders** for the owner to replace before store submission.
+- **2026-11-15 — Bundle identifiers `au.example.logm8` are placeholders** for the owner to replace before store submission.
 - **2026-11-15 — iPad / tablet support.** `supportsTablet: true` and `orientation: default` (all orientations; cab
   mounts are often landscape). Layout is responsive: content is centred and capped (640 pt, 1180 pt wide);
   from 840 pt wide Home is two columns (status/countdown/controls | timeline/breaches), the timeline is one row of
@@ -194,3 +194,80 @@ Format: date — decision — reason. Sources are as keyed in `docs/RULES_SOURCE
 - **2026-11-15 — Tooling:** pnpm `node-linker=hoisted` (`.npmrc`) for Expo/Metro; Metro resolves the rules-engine's
   `.js`-suffixed TypeScript imports (custom `resolveRequest`); Jest maps them the same way. Expo SDK 58 / React 19.3 / RN 0.88.
   RNTL 14 (async `render`/`fireEvent`).
+
+## Stage 3 (photo checker), 2026-11-15
+
+### Template geometry (both sheet versions)
+- **2026-11-15 — The daily sheet layouts are data** (`packages/diary-reader/src/templates/v1.4.json` and
+  `pre-2026.json`). Normalised geometry for the work/rest grid, the place/odometer/two-up rows, the field boxes and
+  the checkboxes.
+  - **Source:** the two daily-sheet images on page 4 of the NHVR information sheet *HVNL changes to recording
+    information in the Written Work Diary* (10 June 2026). That sheet shows the pre-1-Aug-2026 sheet (1016×717 px)
+    and v1.4 (981×703 px).
+  - **Measurement:** grid lines were found by pixel analysis. On v1.4, midnight to midnight is x = 106–868
+    (31.75 px/hour) and the work/rest rows are y = 468 / 512 / 556. On pre-2026, x = 111–897 (32.75 px/hour) and
+    y = 478 / 524 / 569. Field and checkbox boxes were read off the images.
+  - **Status:** best-effort. These are low-resolution images, not the printed PDF (which was not available), so the
+    templates are flagged `calibration: best-effort` and must be calibrated against real photos (MANUAL_TEST.md §10).
+    The reader re-locates the grid lines and hour ticks on every photo, which absorbs small template errors in the
+    grid; field and checkbox boxes have no such correction.
+- **2026-11-15 — The sheet version is detected automatically** by correlating the rectified photo with each
+  template's printed layout. It can also be forced.
+- **2026-11-15 — The printed layer used by the generator and for version detection is an approximation**
+  (lines, boxes, shading and ticks from the template, with "pseudo-text" blocks instead of real lettering).
+  Real-photo calibration may need real reference scans.
+
+### Reading pipeline (pure TypeScript, runs on the phone)
+- **2026-11-15 — No native or computer-vision dependency.** The steps are:
+  1. JPEG decode (`jpeg-js`, pure JS).
+  2. Page detection: Otsu threshold on a downscaled image, the largest bright component, then a sub-pixel fit of
+     each paper edge.
+  3. Homography rectification to a 1400 px wide canonical sheet.
+  4. Grid refinement: grid lines re-located locally, and the 25 printed hour ticks located to absorb residual
+     perspective error.
+  5. Per-cell classification of the drawn line in the work or rest row (local-background ink coverage).
+  6. Checkbox and field "ink present" detection that ignores pixels printed on the reference layout.
+
+  Reason: works offline and keeps the photo on the device.
+- **2026-11-15 — Assumes a light sheet on a darker background** (the capture screen tells the driver this).
+  A sheet on a white table may not be found; the error message says so.
+- **2026-11-15 — Handwriting is read through `FieldReader`.** The mobile app uses `HttpFieldReader`, which posts small
+  greyscale PNG crops (not the whole photo) to the server, configured by `EXPO_PUBLIC_FIELD_READER_URL`. Without it,
+  `NullFieldReader` is used and only the presence of handwriting is checked. No API keys are in the app (a test
+  enforces this).
+- **2026-11-15 — `apps/api` is a zero-dependency Node HTTP server** with a `VisionProvider` interface and a stub
+  provider (every field returns "not read"). Choosing and configuring a real vision model (server-side credentials,
+  privacy terms for diary content) is an owner decision for a later stage.
+- **2026-11-15 — `noUncheckedIndexedAccess` stays on for the diary-reader.** Pixel loops use non-null assertions
+  (no runtime cost; a helper call per pixel would be slow on Hermes). ESLint allows `!` only in
+  `packages/diary-reader/src`.
+
+### Accuracy measurement
+- **2026-11-15 — The accuracy targets (≥ 98% cells, ≥ 90% fully-correct sheets) are measured on SYNTHETIC sheets
+  only.** These are rendered from the same templates the reader uses, so they show that the pipeline handles
+  rotation (±8°), perspective, blur, lighting gradients and JPEG noise. They do **not** show real-world accuracy:
+  printed lettering, pen pressure, folded or creased pages, other surfaces and real lighting are not modelled.
+  `pnpm --filter @logm8/diary-reader accuracy` reports `fixtures/real/` photos separately once they exist.
+- **2026-11-15 — The synthetic images are generated, not committed** (`fixtures/synthetic/` is git-ignored;
+  `pnpm --filter @logm8/diary-reader synth 200` writes them with ground-truth JSON). Each sheet is deterministic from
+  its seed. The mobile tests use one committed fixture (seed 3036) because the pipeline is about 20× slower under
+  Jest's Babel transform.
+
+### Comparison rules
+- **2026-11-15 — Mandatory items come from the Regulation** (`requirements.ts`, with sources; see
+  RULES_SOURCES.md). The rules that apply depend on the **date of the sheet**, not the sheet version: an old sheet
+  used after 1 Aug 2026 follows the new rules (NHVR information sheet FAQ).
+- **2026-11-15 — Place and odometer are checked at every change in the hour column of the change** (or the column
+  before, for a change exactly on the hour).
+  - **Same-day rest-to-work change:** reported as "check", not "missing", because REG s16(6) exempts it when the
+    place and odometer are unchanged.
+  - **Rest that began before midnight:** a rest running from the start of the sheet (midnight) is treated as
+    having started the previous day, so it is not exempt.
+  - **Odometer:** only required "if an odometer is fitted" (s16(2)(d)); the item notes this.
+- **2026-11-15 — Rest drawn on a sheet is treated as stationary rest** for the breach check, because the sheet does
+  not record where rest was taken. A false "no 7 h stationary rest" alarm is worse here than in the app, where the
+  driver chooses the rest location.
+- **2026-11-15 — Breaches visible on the sheet are checked for that one day only** (written-diary rounding, the
+  driver's scheme from the profile or the ticked hours option). 7 and 14 day limits need the app log.
+- **2026-11-15 — The sheet date comes from the handwritten date** (when a FieldReader is configured and returns
+  it), otherwise from today in base time. The driver can change it on the results screen.

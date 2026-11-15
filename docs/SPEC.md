@@ -1,6 +1,6 @@
 # Truck Driver Fatigue Companion — Product & Engineering Spec
 
-Working name: **LogMate** (placeholder). Owner: tdaly. Last updated: 2026-11-15.
+Working name: **LogM8** (placeholder). Owner: tdaly. Last updated: 2026-11-15.
 
 ## 1. Product summary
 

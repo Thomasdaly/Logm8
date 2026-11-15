@@ -1,7 +1,7 @@
 import { Redirect, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Text, View } from 'react-native';
-import type { RestLocation } from '@logmate/rules-engine';
+import type { RestLocation } from '@logm8/rules-engine';
 import { Countdown } from '../components/Countdown';
 import { DrivingLock } from '../components/DrivingLock';
 import { Timeline } from '../components/Timeline';
@@ -103,6 +103,7 @@ export function HomeScreen() {
 
   const links = (
     <View style={common.row}>
+      <Button title="Check diary page" tone="ghost" onPress={() => router.push('/capture')} testID="open-capture" />
       <Button title="History" tone="ghost" onPress={() => router.push('/history')} testID="open-history" />
       <Button title="Settings" tone="ghost" onPress={() => router.push('/settings')} testID="open-settings" />
     </View>

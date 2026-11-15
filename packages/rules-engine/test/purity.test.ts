@@ -18,7 +18,7 @@ describe('rules-engine purity (CLAUDE.md, SPEC §4.2)', () => {
       for (const m of src.matchAll(/^\s*(import|export)\s+(type\s+)?[^'"]*?from\s+'([^']+)'/gm)) {
         const isType = Boolean(m[2]) || /^export type \*/.test(m[0].trim());
         const spec = m[3]!;
-        expect(spec.startsWith('.') || (spec === '@logmate/shared' && isType), `${f}: ${m[0].trim()}`).toBe(true);
+        expect(spec.startsWith('.') || (spec === '@logm8/shared' && isType), `${f}: ${m[0].trim()}`).toBe(true);
       }
       expect(src, f).not.toMatch(/Date\.now\(|new Date\(\)|Math\.random\(|performance\.now|process\.|fetch\(/);
     }

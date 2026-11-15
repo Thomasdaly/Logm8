@@ -3,7 +3,7 @@ import * as TaskManager from 'expo-task-manager';
 import { type LocationSample, speedToKmh } from '../lib/motion';
 import type { LocationPermissions, LocationPort } from '../state/controller';
 
-const TASK = 'logmate-background-location';
+const TASK = 'logm8-background-location';
 
 type Listener = (s: LocationSample) => void;
 let listener: Listener | null = null;
@@ -53,7 +53,7 @@ export const expoLocation: LocationPort = {
         showsBackgroundLocationIndicator: true,
         // Android: a foreground service keeps tracking (and spoken warnings) alive when the screen is off.
         foregroundService: {
-          notificationTitle: 'LogMate is watching your work and rest limits',
+          notificationTitle: 'LogM8 is watching your work and rest limits',
           notificationBody: 'Location is used only to measure speed. Tap to open.',
         },
       });

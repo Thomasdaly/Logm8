@@ -1,4 +1,4 @@
-import type { SchemeDefinition } from '@logmate/shared';
+import type { SchemeDefinition } from '@logm8/shared';
 
 export type ValidationResult = { ok: true; scheme: SchemeDefinition } | { ok: false; errors: string[] };
 

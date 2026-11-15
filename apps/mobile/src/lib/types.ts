@@ -1,4 +1,4 @@
-import type { RestLocation } from '@logmate/rules-engine';
+import type { RestLocation } from '@logm8/rules-engine';
 
 export type DriverState = 'work' | 'rest';
 

@@ -11,8 +11,8 @@ const tier = (bound: string) => ({
 
 export const schemeJsonSchema = {
   $schema: 'https://json-schema.org/draft/2020-12/schema',
-  $id: 'https://logmate.invalid/schemas/scheme-definition-v1.json',
-  title: 'LogMate fatigue scheme definition (v1)',
+  $id: 'https://logm8.invalid/schemas/scheme-definition-v1.json',
+  title: 'LogM8 fatigue scheme definition (v1)',
   type: 'object',
   additionalProperties: false,
   required: ['schemaVersion', 'id', 'name', 'family', 'arrangement', 'version', 'verifiedOn', 'sources', 'rules', 'switchingOut', 'resetRestMinutes'],

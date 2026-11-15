@@ -1,4 +1,4 @@
-import type { RestRequirement, RestSeverityTier, RiskCategory } from '@logmate/shared';
+import type { RestRequirement, RestSeverityTier, RiskCategory } from '@logm8/shared';
 import { type Interval, type Timeline, clipRuns, len, nightRestDays, workIn } from './timeline.js';
 
 /** Minimum length of rest that counts towards a minimum rest requirement (Fatigue Reg s19(4)-(5), s19A(4)). */

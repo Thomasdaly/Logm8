@@ -17,7 +17,7 @@ Build: `cd apps/mobile && npx expo prebuild && npx expo run:ios --device` / `npx
 
 ## 2. Background location (screen locked / app in the background)
 - [ ] **iOS**: start work, lock the phone, drive (or use Xcode "City Drive" / a real drive) for 10 minutes. Unlock: the speed-based "Movement detected" suggestion was raised and **nothing was recorded** until you confirmed it.
-- [ ] **Android**: same test. A persistent notification ("LogMate is watching your work and rest limits") shows while tracking. Swipe the app away from recents: tracking continues (foreground service). Force-stop: tracking stops (expected).
+- [ ] **Android**: same test. A persistent notification ("LogM8 is watching your work and rest limits") shows while tracking. Swipe the app away from recents: tracking continues (foreground service). Force-stop: tracking stops (expected).
 - [ ] Battery saver / Doze (Android) and Low Power Mode (iOS): note whether location updates and warnings still arrive on time.
 - [ ] After a 15+ minute stop while working, a "Stopped for 15 minutes… Start rest?" suggestion appears, back-dated to when you stopped, and only commits on **Confirm**. Dismiss does not repeat it.
 
@@ -64,6 +64,21 @@ Do not change the phone clock to test this. Either log "Start Work" and wait for
 
 ## 9. Disclaimer
 - [ ] "Your Written Work Diary is your legal record. This app helps you check it." is visible in onboarding (before the form), in Settings and at the bottom of Home.
+
+## 10. Photo check of a daily sheet (stage 3)
+Synthetic accuracy does **not** prove real-world accuracy. These checks calibrate the templates and the reader:
+- [ ] Photograph 20–30 real daily sheets (both pre-2026 and v1.4) whose schedules you have written down. Vary the
+      phone, light, angle, surface (dark seat, dash, clipboard) and pen. Save them as `packages/diary-reader/fixtures/real/<name>.jpg`
+      with `<name>.json` (`{ "version": "v1.4", "cells": [96 x "work" | "rest" | "none"] }`), then run
+      `pnpm --filter @logm8/diary-reader accuracy`. Record the "Real photos" line. Do not commit other drivers' diaries.
+- [ ] If accuracy is poor, compare a rectified real sheet with the template (grid, field and checkbox boxes) and
+      adjust `src/templates/*.json`. The grid self-corrects; boxes do not.
+- [ ] A sheet on a **white** table: the app should say it cannot find the sheet (known limitation).
+- [ ] Glare across the grid, a creased page, a page photographed while still in the book (binding visible).
+- [ ] Time to read a photo on the oldest supported phone/iPad (target: under about 10 s, with a "Reading the sheet…" indicator).
+- [ ] Camera permission prompt text (iOS/Android) and the "Choose photo" fallback.
+- [ ] With `EXPO_PUBLIC_FIELD_READER_URL` pointing at `apps/api` (`pnpm --filter @logm8/api start`), check the request is
+      sent and the stub reply ("not read") is handled. Check no API key appears in the app bundle.
 
 ## Known limitations to tell testers
 - No network time source in stage 2: each record stores the device time and, when available, the GPS fix time.

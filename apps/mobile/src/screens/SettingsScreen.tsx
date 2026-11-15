@@ -33,7 +33,7 @@ export function SettingsScreen() {
     const evaluation = ctx ? runEvaluate(snap.entries, ctx, nowIso) : null;
     const verify = await controller.verifyIntegrity();
     const json = JSON.stringify({ exportedAt: nowIso, integrity: verify, rulesetVersion: evaluation?.status.rulesetVersion ?? null, evaluation, events: all }, null, 2);
-    await Share.share({ message: json, title: 'LogMate export' });
+    await Share.share({ message: json, title: 'LogM8 export' });
   }
 
   return (

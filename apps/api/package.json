@@ -1,0 +1,17 @@
+{
+  "name": "@logm8/api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "LogM8 server: field reading for the photo checker (stub vision provider in stage 3).",
+  "scripts": {
+    "start": "tsx src/main.ts",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "tsx": "^4.23.15",
+    "vitest": "^5.1.0"
+  }
+}

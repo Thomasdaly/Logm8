@@ -1,4 +1,4 @@
-import type { LongNightDefinition, RuleDefinition } from '@logmate/shared';
+import type { LongNightDefinition, RuleDefinition } from '@logm8/shared';
 import { type Interval, type Timeline, WORK, workIn } from './timeline.js';
 import { localDayOf, localToEpoch } from './time.js';
 import { windowStarts } from './windows.js';
