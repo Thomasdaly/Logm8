@@ -1,0 +1,52 @@
+{
+  "expo": {
+    "name": "LogMate",
+    "slug": "logmate",
+    "version": "0.1.0",
+    "scheme": "logmate",
+    "orientation": "default",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "ios": {
+      "bundleIdentifier": "au.example.logmate",
+      "supportsTablet": true,
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "location",
+          "audio"
+        ],
+        "NSLocationWhenInUseUsageDescription": "LogMate uses your location to measure speed so it can suggest when you have started or stopped work and switch off buttons while you are driving. Nothing is recorded without your confirmation.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "LogMate uses your location in the background only to measure speed, so it can warn you by voice before a work or rest limit while the screen is off, and suggest work/rest changes. Nothing is recorded without your confirmation.",
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "package": "au.example.logmate",
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
+        "FOREGROUND_SERVICE",
+        "FOREGROUND_SERVICE_LOCATION",
+        "POST_NOTIFICATIONS"
+      ]
+    },
+    "plugins": [
+      "expo-router",
+      "expo-sqlite",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "LogMate uses your location in the background only to measure speed, so it can warn you by voice before a work or rest limit while the screen is off.",
+          "locationWhenInUsePermission": "LogMate uses your location to measure speed so it can suggest work/rest changes and lock the buttons while you drive.",
+          "isAndroidBackgroundLocationEnabled": true,
+          "isAndroidForegroundServiceEnabled": true,
+          "isIosBackgroundLocationEnabled": true
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": false
+    }
+  }
+}

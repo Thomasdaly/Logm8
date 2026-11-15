@@ -1,0 +1,227 @@
+{
+  "schemaVersion": 1,
+  "version": "1.0.0",
+  "verifiedOn": "2026-11-15",
+  "switchingOut": "compliance_or_reset",
+  "resetRestMinutes": 2880,
+  "id": "bfm-two-up",
+  "name": "Basic Fatigue Management - two-up (transitional)",
+  "family": "bfm",
+  "arrangement": "two_up",
+  "sources": [
+    "https://www.legislation.qld.gov.au/view/whole/html/inforce/2026-07-31/sl-2013-0078",
+    "https://www.legislation.qld.gov.au/view/whole/html/inforce/2026-07-31/act-2012-021",
+    "https://www.nhvr.gov.au/safety-accreditation-compliance/fatigue-management/work-and-rest-hours",
+    "https://www.nhvr.gov.au/safety-accreditation-compliance/fatigue-management/counting-time"
+  ],
+  "rules": [
+    {
+      "id": "bfm-two-24h",
+      "description": "In any 24 hours: max 14 h work",
+      "period": 1440,
+      "countFrom": "any_rest",
+      "maxWork": {
+        "minutes": 840,
+        "measure": "work",
+        "tiers": [
+          {
+            "category": "minor",
+            "maxActual": 885
+          },
+          {
+            "category": "substantial",
+            "maxActual": 915
+          },
+          {
+            "category": "severe",
+            "maxActual": 930
+          },
+          {
+            "category": "critical"
+          }
+        ]
+      },
+      "source": "Heavy Vehicle (Fatigue Management) National Regulation (Qld reprint in force 2026-07-31; BFM transitional) Sch 2 Table 2"
+    },
+    {
+      "id": "bfm-two-82h",
+      "description": "In any 82 hours: 10 continuous h stationary rest",
+      "period": 4920,
+      "countFrom": "relevant_major_rest",
+      "majorRest": [
+        {
+          "minContinuous": 600,
+          "stationary": true
+        }
+      ],
+      "minRest": [
+        {
+          "id": "rest-10h-stationary",
+          "description": "10 continuous hours stationary rest time",
+          "total": 600,
+          "minBlock": 600,
+          "continuous": true,
+          "stationary": true,
+          "tiers": [
+            {
+              "category": "minor",
+              "minActual": 555
+            },
+            {
+              "category": "substantial",
+              "minActual": 525
+            },
+            {
+              "category": "severe",
+              "minActual": 510
+            },
+            {
+              "category": "critical"
+            }
+          ]
+        }
+      ],
+      "source": "Heavy Vehicle (Fatigue Management) National Regulation (Qld reprint in force 2026-07-31; BFM transitional) Sch 2 Table 2"
+    },
+    {
+      "id": "bfm-two-7d",
+      "description": "In any 7 days: max 70 h work; 24 continuous h stationary rest and 24 h stationary rest in blocks >= 7 continuous h",
+      "period": 10080,
+      "countFrom": "relevant_major_rest",
+      "majorRest": [
+        {
+          "minContinuous": 1440,
+          "stationary": true
+        },
+        {
+          "minContinuous": 420,
+          "stationary": true
+        }
+      ],
+      "maxWork": {
+        "minutes": 4200,
+        "measure": "work",
+        "tiers": [
+          {
+            "category": "minor",
+            "maxActual": 4290
+          },
+          {
+            "category": "substantial",
+            "maxActual": 4350
+          },
+          {
+            "category": "severe",
+            "maxActual": 4380
+          },
+          {
+            "category": "critical"
+          }
+        ]
+      },
+      "minRest": [
+        {
+          "id": "rest-24h-stationary",
+          "description": "24 continuous hours stationary rest time",
+          "total": 1440,
+          "minBlock": 1440,
+          "continuous": true,
+          "stationary": true,
+          "exclusiveGroup": "g24",
+          "tiers": [
+            {
+              "category": "minor",
+              "minActual": 1395
+            },
+            {
+              "category": "substantial",
+              "minActual": 1365
+            },
+            {
+              "category": "severe",
+              "minActual": 1350
+            },
+            {
+              "category": "critical"
+            }
+          ]
+        },
+        {
+          "id": "rest-24h-in-7h-blocks",
+          "description": "24 hours stationary rest time in blocks of at least 7 continuous hours",
+          "total": 1440,
+          "minBlock": 420,
+          "continuous": false,
+          "stationary": true,
+          "exclusiveGroup": "g24",
+          "tiers": [
+            {
+              "category": "minor",
+              "minActual": 1395
+            },
+            {
+              "category": "substantial",
+              "minActual": 1365
+            },
+            {
+              "category": "severe",
+              "minActual": 1350
+            },
+            {
+              "category": "critical"
+            }
+          ]
+        }
+      ],
+      "source": "Heavy Vehicle (Fatigue Management) National Regulation (Qld reprint in force 2026-07-31; BFM transitional) Sch 2 Table 2"
+    },
+    {
+      "id": "bfm-two-14d",
+      "description": "In any 14 days: max 140 h work; 4 night rest breaks",
+      "period": 20160,
+      "countFrom": "relevant_major_rest",
+      "majorRest": [
+        {
+          "minContinuous": 420,
+          "stationary": true,
+          "nightRest": true
+        }
+      ],
+      "maxWork": {
+        "minutes": 8400,
+        "measure": "work",
+        "tiers": [
+          {
+            "category": "minor",
+            "maxActual": 8490
+          },
+          {
+            "category": "substantial",
+            "maxActual": 8550
+          },
+          {
+            "category": "severe",
+            "maxActual": 8580
+          },
+          {
+            "category": "critical"
+          }
+        ]
+      },
+      "minRest": [
+        {
+          "id": "night-4",
+          "description": "4 night rest breaks",
+          "total": 420,
+          "minBlock": 420,
+          "continuous": true,
+          "stationary": true,
+          "nightRest": true,
+          "count": 4,
+          "exclusiveGroup": "night"
+        }
+      ],
+      "source": "Heavy Vehicle (Fatigue Management) National Regulation (Qld reprint in force 2026-07-31; BFM transitional) Sch 2 Table 2"
+    }
+  ]
+}

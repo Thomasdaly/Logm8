@@ -1,0 +1,283 @@
+{
+  "schemaVersion": 1,
+  "version": "1.0.0",
+  "verifiedOn": "2026-11-15",
+  "switchingOut": "compliance_or_reset",
+  "resetRestMinutes": 2880,
+  "id": "standard-solo",
+  "name": "Standard Hours - solo (truck)",
+  "family": "standard",
+  "arrangement": "solo",
+  "sources": [
+    "https://www.legislation.qld.gov.au/view/whole/html/inforce/2026-08-01/sl-2013-0078",
+    "https://www.legislation.qld.gov.au/view/whole/html/inforce/current/act-2012-021",
+    "https://www.nhvr.gov.au/safety-accreditation-compliance/fatigue-management/work-and-rest-hours",
+    "https://www.nhvr.gov.au/safety-accreditation-compliance/fatigue-management/counting-time"
+  ],
+  "rules": [
+    {
+      "id": "std-solo-5.5h",
+      "description": "In any 5 1/2 hours: max 5 1/4 h work; 15 continuous min rest",
+      "period": 330,
+      "countFrom": "any_rest",
+      "maxWork": {
+        "minutes": 315,
+        "measure": "work",
+        "tiers": [
+          {
+            "category": "minor"
+          }
+        ]
+      },
+      "minRest": [
+        {
+          "id": "rest-15c",
+          "description": "15 continuous minutes rest time",
+          "total": 15,
+          "minBlock": 15,
+          "continuous": true,
+          "stationary": false
+        }
+      ],
+      "source": "Heavy Vehicle (Fatigue Management) National Regulation (Qld reprint in force 2026-08-01) Sch 1 Table 1"
+    },
+    {
+      "id": "std-solo-8h",
+      "description": "In any 8 hours: max 7 1/2 h work; 30 min rest in blocks >= 15 min",
+      "period": 480,
+      "countFrom": "any_rest",
+      "maxWork": {
+        "minutes": 450,
+        "measure": "work",
+        "tiers": [
+          {
+            "category": "minor"
+          }
+        ]
+      },
+      "minRest": [
+        {
+          "id": "rest-30b",
+          "description": "30 minutes rest time in blocks of at least 15 continuous minutes",
+          "total": 30,
+          "minBlock": 15,
+          "continuous": false,
+          "stationary": false
+        }
+      ],
+      "source": "Heavy Vehicle (Fatigue Management) National Regulation (Qld reprint in force 2026-08-01) Sch 1 Table 1"
+    },
+    {
+      "id": "std-solo-11h",
+      "description": "In any 11 hours: max 10 h work; 60 min rest in blocks >= 15 min",
+      "period": 660,
+      "countFrom": "any_rest",
+      "maxWork": {
+        "minutes": 600,
+        "measure": "work",
+        "tiers": [
+          {
+            "category": "minor",
+            "maxActual": 645
+          },
+          {
+            "category": "substantial"
+          }
+        ]
+      },
+      "minRest": [
+        {
+          "id": "rest-60b",
+          "description": "60 minutes rest time in blocks of at least 15 continuous minutes",
+          "total": 60,
+          "minBlock": 15,
+          "continuous": false,
+          "stationary": false
+        }
+      ],
+      "source": "Heavy Vehicle (Fatigue Management) National Regulation (Qld reprint in force 2026-08-01) Sch 1 Table 1"
+    },
+    {
+      "id": "std-solo-24h",
+      "description": "In any 24 hours: max 12 h work; 7 continuous h stationary rest",
+      "period": 1440,
+      "countFrom": "relevant_major_rest",
+      "majorRest": [
+        {
+          "minContinuous": 420,
+          "stationary": true
+        }
+      ],
+      "maxWork": {
+        "minutes": 720,
+        "measure": "work",
+        "tiers": [
+          {
+            "category": "minor",
+            "maxActual": 765
+          },
+          {
+            "category": "substantial",
+            "maxActual": 795
+          },
+          {
+            "category": "severe",
+            "maxActual": 810
+          },
+          {
+            "category": "critical"
+          }
+        ]
+      },
+      "minRest": [
+        {
+          "id": "rest-7h-stationary",
+          "description": "7 continuous hours stationary rest time",
+          "total": 420,
+          "minBlock": 420,
+          "continuous": true,
+          "stationary": true,
+          "tiers": [
+            {
+              "category": "minor",
+              "minActual": 375
+            },
+            {
+              "category": "substantial",
+              "minActual": 345
+            },
+            {
+              "category": "severe",
+              "minActual": 330
+            },
+            {
+              "category": "critical"
+            }
+          ]
+        }
+      ],
+      "source": "Heavy Vehicle (Fatigue Management) National Regulation (Qld reprint in force 2026-08-01) Sch 1 Table 1"
+    },
+    {
+      "id": "std-solo-7d",
+      "description": "In any 7 days: max 72 h work; 24 continuous h stationary rest",
+      "period": 10080,
+      "countFrom": "relevant_major_rest",
+      "majorRest": [
+        {
+          "minContinuous": 1440,
+          "stationary": true
+        }
+      ],
+      "maxWork": {
+        "minutes": 4320,
+        "measure": "work",
+        "tiers": [
+          {
+            "category": "minor",
+            "maxActual": 4410
+          },
+          {
+            "category": "substantial",
+            "maxActual": 4470
+          },
+          {
+            "category": "severe",
+            "maxActual": 4500
+          },
+          {
+            "category": "critical"
+          }
+        ]
+      },
+      "minRest": [
+        {
+          "id": "rest-24h-stationary",
+          "description": "24 continuous hours stationary rest time",
+          "total": 1440,
+          "minBlock": 1440,
+          "continuous": true,
+          "stationary": true,
+          "tiers": [
+            {
+              "category": "minor",
+              "minActual": 1395
+            },
+            {
+              "category": "substantial",
+              "minActual": 1365
+            },
+            {
+              "category": "severe",
+              "minActual": 1350
+            },
+            {
+              "category": "critical"
+            }
+          ]
+        }
+      ],
+      "source": "Heavy Vehicle (Fatigue Management) National Regulation (Qld reprint in force 2026-08-01) Sch 1 Table 1"
+    },
+    {
+      "id": "std-solo-14d",
+      "description": "In any 14 days: max 144 h work; 2 night rest breaks and 2 night rest breaks on consecutive days",
+      "period": 20160,
+      "countFrom": "relevant_major_rest",
+      "majorRest": [
+        {
+          "minContinuous": 420,
+          "stationary": true,
+          "nightRest": true
+        }
+      ],
+      "maxWork": {
+        "minutes": 8640,
+        "measure": "work",
+        "tiers": [
+          {
+            "category": "minor",
+            "maxActual": 8730
+          },
+          {
+            "category": "substantial",
+            "maxActual": 8790
+          },
+          {
+            "category": "severe",
+            "maxActual": 8820
+          },
+          {
+            "category": "critical"
+          }
+        ]
+      },
+      "minRest": [
+        {
+          "id": "night-2",
+          "description": "2 night rest breaks",
+          "total": 420,
+          "minBlock": 420,
+          "continuous": true,
+          "stationary": true,
+          "nightRest": true,
+          "count": 2,
+          "exclusiveGroup": "night"
+        },
+        {
+          "id": "night-2-consecutive",
+          "description": "2 night rest breaks taken on consecutive days",
+          "total": 420,
+          "minBlock": 420,
+          "continuous": true,
+          "stationary": true,
+          "nightRest": true,
+          "count": 2,
+          "exclusiveGroup": "night",
+          "consecutive": true
+        }
+      ],
+      "source": "Heavy Vehicle (Fatigue Management) National Regulation (Qld reprint in force 2026-08-01) Sch 1 Table 1"
+    }
+  ]
+}
