@@ -8,7 +8,8 @@ import { MotionSuggester, type LocationSample, type Suggestion } from '../lib/mo
 import { type ProfileVersion, type StateEntry, currentEntry, profileHistory, projectEntries, toWorkRestEvents } from '../lib/projection';
 import { isInteractionAllowed } from '../lib/safety';
 import { type Slot, buildTodaySlots } from '../lib/timeline';
-import type { DriverState, GeoFix, NewEvent, Profile, StoredEvent, VerifyResult } from '../lib/types';
+import type { DriverState, GeoFix, NewEvent, Profile, StateChangePayload, StoredEvent, VerifyResult } from '../lib/types';
+import { type WatchContext, type WatchPort, type WatchReply, buildWatchContext, contextChanged, parseWatchCommand } from '../lib/watch';
 import { WarningTracker } from '../lib/warnings';
 
 export interface SpeechPort {
@@ -41,6 +42,8 @@ export interface ControllerDeps {
   yieldToUi?: () => Promise<void>;
   /** Reads handwriting on photographed daily sheets (server-backed). Defaults to not reading handwriting. */
   fieldReader?: FieldReader;
+  /** Apple Watch link (remote buttons + alerts). Omitted = no watch. */
+  watch?: WatchPort;
 }
 
 export type SheetCheck =
@@ -111,6 +114,8 @@ export class DriverController {
   private tracking = false;
   private episode = '';
   private suggestionSpoken: string | null = null;
+  private watchSent: WatchContext | null = null;
+  private watchUnsub: (() => void) | null = null;
 
   constructor(private readonly deps: ControllerDeps) {
     this.snap = {
@@ -148,6 +153,7 @@ export class DriverController {
   private set(patch: Partial<Snapshot>): void {
     this.snap = { ...this.snap, ...patch };
     for (const l of [...this.listeners]) l();
+    this.syncWatch();
   }
 
   // ---- lifecycle ----
@@ -157,9 +163,15 @@ export class DriverController {
     const perms = await this.deps.location.getPermissions();
     this.set({ ready: true, locationStatus: this.statusOf(perms) });
     if (perms.foreground && this.snap.profile) await this.startTracking();
+    if (this.deps.watch && !this.watchUnsub) {
+      this.watchUnsub = this.deps.watch.onCommand((raw) => this.handleWatchCommand(raw));
+      this.syncWatch(true);
+    }
   }
 
   async dispose(): Promise<void> {
+    this.watchUnsub?.();
+    this.watchUnsub = null;
     this.tracking = false;
     await this.deps.location.stop();
     this.deps.speech.stop();
@@ -243,15 +255,15 @@ export class DriverController {
     }
   }
 
-  async startWork(opts: { at?: number; source?: 'manual' | 'suggestion' } = {}): Promise<ActionResult> {
+  async startWork(opts: { at?: number; source?: StateChangePayload['source'] } = {}): Promise<ActionResult> {
     return this.logState('work', undefined, opts);
   }
 
-  async startRest(restLocation: RestLocation = 'stationary_out_of_vehicle', opts: { at?: number; source?: 'manual' | 'suggestion' } = {}): Promise<ActionResult> {
+  async startRest(restLocation: RestLocation = 'stationary_out_of_vehicle', opts: { at?: number; source?: StateChangePayload['source'] } = {}): Promise<ActionResult> {
     return this.logState('rest', restLocation, opts);
   }
 
-  private async logState(state: DriverState, restLocation: RestLocation | undefined, opts: { at?: number; source?: 'manual' | 'suggestion' }): Promise<ActionResult> {
+  private async logState(state: DriverState, restLocation: RestLocation | undefined, opts: { at?: number; source?: StateChangePayload['source'] }): Promise<ActionResult> {
     if (!this.snap.profile) return { ok: false, reason: 'no_profile', message: 'Finish setup first.' };
     const blocked = this.gate();
     if (blocked) return blocked;
@@ -310,6 +322,55 @@ export class DriverController {
       return { ok: true };
     } catch (e) {
       return { ok: false, reason: 'error', message: (e as Error).message };
+    }
+  }
+
+  // ---- Apple Watch ----
+  /**
+   * A button press on the watch. It goes through exactly the same checks as the phone buttons (logState: setup
+   * finished, driving lock, not already in that state) and is recorded with the phone's clock and GPS.
+   * The watch never back-dates: the effective time is when the phone receives the press.
+   */
+  async handleWatchCommand(raw: unknown): Promise<WatchReply> {
+    const parsed = parseWatchCommand(raw);
+    if (!parsed.ok) return { id: parsed.id, ok: false, reason: 'error', message: parsed.message };
+    const { cmd } = parsed;
+    let res: ActionResult;
+    if (cmd.action === 'start_work') res = await this.logState('work', undefined, { source: 'watch' });
+    else if (cmd.restLocation === 'sleeper_berth_moving' && !this.snap.profile?.twoUp) {
+      res = { ok: false, reason: 'error', message: 'Sleeper berth (moving) is for two-up driving only.' };
+    } else res = await this.logState('rest', cmd.restLocation, { source: 'watch' });
+    if (!res.ok) return { id: cmd.id, ok: false, reason: res.reason, message: res.message };
+    const ctx = this.watchContext();
+    this.watchSent = ctx;
+    return { id: cmd.id, ok: true, context: ctx };
+  }
+
+  private watchContext(): WatchContext {
+    const s = this.snap;
+    const last = s.entries[s.entries.length - 1];
+    return buildWatchContext({
+      nowMs: s.nowMs,
+      setupDone: s.profile !== null,
+      twoUp: s.profile?.twoUp ?? false,
+      state: s.state,
+      restLocation: s.state === 'rest' ? (last?.restLocation ?? null) : null,
+      stateSinceMs: s.stateSinceMs,
+      countdownSec: s.countdownSec,
+      limitLabel: s.limitLabel,
+      interactionAllowed: s.interactionAllowed,
+    });
+  }
+
+  private syncWatch(force = false): void {
+    if (!this.deps.watch || !this.snap.ready) return;
+    const ctx = this.watchContext();
+    if (!force && !contextChanged(this.watchSent, ctx)) return;
+    this.watchSent = ctx;
+    try {
+      this.deps.watch.updateContext(ctx);
+    } catch {
+      // A missing or unpaired watch must never break logging on the phone.
     }
   }
 

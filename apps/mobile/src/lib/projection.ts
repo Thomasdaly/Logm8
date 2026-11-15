@@ -9,7 +9,7 @@ export interface StateEntry {
   restLocation?: RestLocation;
   /** seq of the latest correction that changed this entry, if any. */
   correctedBySeq?: number;
-  source: 'manual' | 'suggestion';
+  source: 'manual' | 'suggestion' | 'watch';
 }
 
 export interface ProfileVersion {

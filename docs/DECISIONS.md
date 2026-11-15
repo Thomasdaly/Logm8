@@ -271,3 +271,29 @@ Format: date — decision — reason. Sources are as keyed in `docs/RULES_SOURCE
   driver's scheme from the profile or the ticked hours option). 7 and 14 day limits need the app log.
 - **2026-11-15 — The sheet date comes from the handwritten date** (when a FieldReader is configured and returns
   it), otherwise from today in base time. The driver can change it on the results screen.
+
+## Apple Watch companion (added 2026-11-15, outside the staged spec at the owner's request)
+
+- **2026-11-15 — Apple Watch app added** (owner request: alerts and quick Start/Stop Work/Rest presses). Not in
+  SPEC.md §3 build order; recorded here as a scope addition.
+- **2026-11-15 — The phone stays the only record keeper.** The watch has no event store. A press is sent to the
+  phone (`WCSession.sendMessage` with reply), validated (`parseWatchCommand`), and recorded through the same
+  controller path as the phone buttons (`logState`), with the phone's clock, GPS fix and hash chain. Reason: one
+  append-only, hash-chained log (SPEC §6); no second clock or merge logic.
+- **2026-11-15 — Presses are live only, never queued or back-dated.** If the phone is not reachable, or the phone app
+  does not answer in 8 s, the watch shows "use the phone" / "check the phone" and nothing is recorded. Reason: a
+  queued press applied later would carry a stale time and skip the driving-lock check at the moment of the press.
+  Known edge: a reply that arrives after the 8 s timeout means the press *was* recorded although the watch said to
+  check the phone; the next context shows the true state, and a repeat press is refused as "already".
+- **2026-11-15 — The driving lock applies to the watch.** The phone pushes `interactionAllowed` and the watch hides the
+  buttons while moving; the phone re-checks `isInteractionAllowed(speed)` on every press regardless.
+- **2026-11-15 — Sleeper berth (moving) is offered and accepted from the watch for two-up profiles only**, as on the
+  home screen.
+- **2026-11-15 — Watch alerts are scheduled on the watch** as local notifications at 60/30/15/5/0 min before the
+  phone's last computed limit time (`limitAtMs`, only while working), so they still fire with the phone locked or out
+  of range. Every new context replaces the schedule; rest clears it. The phone only resends the context on a real
+  change (limit moved ≥ 30 s, state, lock, label). The phone's spoken warnings are unchanged.
+- **2026-11-15 — Native code:** a local Expo module (`apps/mobile/modules/logm8-watch`, Swift, WatchConnectivity) on the
+  phone, and a SwiftUI watchOS 10 target (`apps/mobile/targets/watch`) generated into the Xcode project by
+  `@bacons/apple-targets` at `expo prebuild`. Not available in Expo Go; Android and tests use a no-op `WatchPort`.
+  The Swift code has no automated tests; see MANUAL_TEST.md.

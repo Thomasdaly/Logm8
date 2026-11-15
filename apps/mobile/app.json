@@ -53,7 +53,8 @@
           "photosPermission": "LogM8 can read a photo of a Written Work Diary daily sheet that you choose, to check it against your log.",
           "cameraPermission": "LogM8 uses the camera to photograph a Written Work Diary daily sheet so it can check it against your log."
         }
-      ]
+      ],
+      "@bacons/apple-targets"
     ],
     "experiments": {
       "typedRoutes": false

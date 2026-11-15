@@ -1,6 +1,7 @@
 import { DriverController, type LocationPermissions, type LocationPort, type SpeechPort } from '../../src/state/controller';
 import type { LocationSample } from '../../src/lib/motion';
 import type { Profile } from '../../src/lib/types';
+import type { WatchContext, WatchPort, WatchReply } from '../../src/lib/watch';
 import { PROFILE, memoryStore } from './testDb';
 
 /** 2026-11-16 06:00 in Brisbane (UTC+10, no DST). */
@@ -50,12 +51,35 @@ export class FakeLocation implements LocationPort {
   }
 }
 
+/** Fake Apple Watch link: records pushed contexts and lets a test "press" a watch button. */
+export class FakeWatch implements WatchPort {
+  contexts: WatchContext[] = [];
+  private handler: ((raw: unknown) => Promise<WatchReply>) | null = null;
+  updateContext(ctx: WatchContext): void {
+    this.contexts.push(ctx);
+  }
+  onCommand(handler: (raw: unknown) => Promise<WatchReply>): () => void {
+    this.handler = handler;
+    return () => {
+      this.handler = null;
+    };
+  }
+  get last(): WatchContext | undefined {
+    return this.contexts[this.contexts.length - 1];
+  }
+  press(raw: unknown): Promise<WatchReply> {
+    if (!this.handler) throw new Error('no watch handler registered');
+    return this.handler(raw);
+  }
+}
+
 export interface Harness {
   controller: DriverController;
   clock: FakeClock;
   speech: FakeSpeech;
   location: FakeLocation;
   store: Awaited<ReturnType<typeof memoryStore>>['store'];
+  watch: FakeWatch;
 }
 
 export async function makeHarness(opts: { profile?: Profile | null; perms?: LocationPermissions } = {}): Promise<Harness> {
@@ -64,12 +88,13 @@ export async function makeHarness(opts: { profile?: Profile | null; perms?: Loca
   const speech = new FakeSpeech();
   const location = new FakeLocation();
   if (opts.perms) location.perms = opts.perms;
-  const controller = new DriverController({ store, clock: clock.now, speech, location, appVersion: 'test', yieldToUi: () => Promise.resolve() });
+  const watch = new FakeWatch();
+  const controller = new DriverController({ store, clock: clock.now, speech, location, watch, appVersion: 'test', yieldToUi: () => Promise.resolve() });
   await controller.load();
   const profile = opts.profile === undefined ? PROFILE : opts.profile;
   if (profile) {
     const r = await controller.saveProfile(profile);
     if (!r.ok) throw new Error(r.message);
   }
-  return { controller, clock, speech, location, store };
+  return { controller, clock, speech, location, store, watch };
 }

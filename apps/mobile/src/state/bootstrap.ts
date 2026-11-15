@@ -5,6 +5,7 @@ import { createFieldReader } from '../platform/fieldReader';
 import { expoLocation } from '../platform/location';
 import { openExpoDb } from '../platform/sqlite';
 import { expoSpeech } from '../platform/speech';
+import { createWatchPort } from '../platform/watch';
 import { DriverController } from './controller';
 
 /** Builds the production controller: SQLite store (expo-sqlite), real clock, expo-speech, expo-location. */
@@ -18,6 +19,7 @@ export async function createProductionController(): Promise<DriverController> {
     location: expoLocation,
     appVersion: Constants.expoConfig?.version ?? '0.0.0',
     fieldReader: createFieldReader(),
+    watch: createWatchPort(),
   });
   await controller.load();
   return controller;

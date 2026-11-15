@@ -1,0 +1,6 @@
+{
+  "name": "logm8-watch",
+  "version": "0.1.0",
+  "private": true,
+  "main": "src/index.ts"
+}

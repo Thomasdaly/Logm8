@@ -35,7 +35,7 @@ export interface StateChangePayload {
   /** Effective time of the change (ISO). Usually the confirmation time; a suggestion may back-date it. */
   at: string;
   restLocation?: RestLocation;
-  source: 'manual' | 'suggestion';
+  source: 'manual' | 'suggestion' | 'watch';
 }
 
 export interface CorrectionPayload {

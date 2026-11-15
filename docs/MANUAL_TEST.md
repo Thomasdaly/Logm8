@@ -84,3 +84,15 @@ Synthetic accuracy does **not** prove real-world accuracy. These checks calibrat
 - No network time source in stage 2: each record stores the device time and, when available, the GPS fix time.
 - Removing the *newest* records from the database leaves a valid shorter chain (detectable only once the head hash is anchored off-device in stage 4).
 - WA / NT are not supported; the app offers no WA/NT base.
+
+## Apple Watch (dev build on a paired iPhone + Apple Watch, or paired simulators)
+
+1. `npx expo prebuild -p ios --clean` then build the `LogM8` scheme; the LogM8 watch app installs with it.
+2. Watch shows "Open LogM8 on your iPhone to finish setup" before onboarding, then state + countdown after.
+3. Press Start Work on the watch: phone home screen shows Working; history shows the entry with source `watch`.
+4. Press Start Rest, pick each rest place; check the phone records it. Solo profile: no "Sleeper (moving)".
+5. Drive (> 10 km/h): watch shows "Locked while moving"; no buttons.
+6. Phone in flight mode / out of range: a press shows "Phone not reachable" and nothing is recorded on the phone.
+7. Alerts: work until 60 min before a limit with the phone locked and in a pocket; the watch taps at 60/30/15/5/0 min.
+   Start a rest: no further alerts.
+8. Force-quit the phone app, press on the watch: "Open LogM8 on your phone" or "No answer from phone", nothing recorded.
